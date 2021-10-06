@@ -1,0 +1,110 @@
+{
+  "kind": "collectionType",
+  "collectionName": "Children",
+  "info": {
+    "name": "child",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "child_id": {
+      "type": "string",
+      "minLength": 7,
+      "regex": "^[a-zA-Z]{2,}\\d{2,}-\\d{2,}$"
+    },
+    "old_wp_post_id": {
+      "type": "string",
+      "unique": true,
+      "private": true,
+      "regex": "^\\d+$"
+    },
+    "published": {
+      "type": "boolean",
+      "default": false,
+      "required": true,
+      "private": true
+    },
+    "first_name": {
+      "type": "string",
+      "required": true
+    },
+    "last_name": {
+      "type": "string",
+      "required": true,
+      "private": true
+    },
+    "birthday": {
+      "type": "biginteger"
+    },
+    "gender": {
+      "type": "enumeration",
+      "enum": [
+        "female",
+        "male"
+      ],
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "nick_name": {
+      "type": "string",
+      "private": true
+    },
+    "date_archived": {
+      "type": "biginteger",
+      "private": true
+    },
+    "exit_status": {
+      "type": "enumeration",
+      "enum": [
+        "Behavior"
+      ],
+      "private": true
+    },
+    "exit_notes": {
+      "type": "string",
+      "private": true
+    },
+    "in_undisclosed_country": {
+      "type": "boolean",
+      "default": false,
+      "required": true,
+      "private": true
+    },
+    "total_sponsorships": {
+      "type": "integer",
+      "min": 0,
+      "private": false,
+      "default": 0,
+      "required": true
+    },
+    "total_sponsorship_dollars": {
+      "type": "integer",
+      "required": true,
+      "default": 0,
+      "private": false,
+      "min": 0,
+      "unique": false
+    },
+    "unique_id": {
+      "type": "uid",
+      "targetField": "child_id",
+      "required": true,
+      "private": true
+    },
+    "home": {
+      "via": "children",
+      "model": "home"
+    },
+    "child_notes": {
+      "via": "child",
+      "collection": "child-note"
+    }
+  }
+}

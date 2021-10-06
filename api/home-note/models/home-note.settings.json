@@ -1,0 +1,36 @@
+{
+  "kind": "collectionType",
+  "collectionName": "Home_notes",
+  "info": {
+    "name": "Home_note"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "note_id": {
+      "type": "string",
+      "required": true,
+      "unique": true,
+      "private": true
+    },
+    "unique_id": {
+      "type": "uid",
+      "targetField": "note_id",
+      "required": true
+    },
+    "content": {
+      "type": "text",
+      "private": true,
+      "required": true,
+      "maxLength": 5000
+    },
+    "home": {
+      "model": "home",
+      "via": "home_notes"
+    }
+  }
+}

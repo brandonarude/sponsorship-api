@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/sponsor-notes",
+      "handler": "sponsor-note.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/sponsor-notes/count",
+      "handler": "sponsor-note.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/sponsor-notes/:id",
+      "handler": "sponsor-note.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/sponsor-notes",
+      "handler": "sponsor-note.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/sponsor-notes/:id",
+      "handler": "sponsor-note.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/sponsor-notes/:id",
+      "handler": "sponsor-note.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

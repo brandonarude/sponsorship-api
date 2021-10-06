@@ -1,0 +1,50 @@
+{
+  "kind": "collectionType",
+  "collectionName": "Sponsorships",
+  "info": {
+    "name": "Sponsorship"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "post_id": {
+      "type": "string",
+      "private": true,
+      "unique": true,
+      "required": true
+    },
+    "unique_id": {
+      "type": "uid",
+      "targetField": "post_id",
+      "private": true,
+      "required": true
+    },
+    "sponsor_id": {
+      "type": "string",
+      "required": true
+    },
+    "child_id": {
+      "type": "string",
+      "required": true
+    },
+    "amount_in_cents": {
+      "type": "integer",
+      "required": true,
+      "min": 1
+    },
+    "deactivated_by": {
+      "type": "string",
+      "private": true
+    },
+    "last_sponsorship_payment": {
+      "type": "biginteger"
+    },
+    "level_name": {
+      "type": "string"
+    }
+  }
+}

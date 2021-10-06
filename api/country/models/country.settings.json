@@ -1,0 +1,53 @@
+{
+  "kind": "collectionType",
+  "collectionName": "Countries",
+  "info": {
+    "name": "Country"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "country_id": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "unique_id": {
+      "type": "uid",
+      "targetField": "country_id",
+      "required": true
+    },
+    "two_letter_code": {
+      "type": "string",
+      "maxLength": 2,
+      "minLength": 2,
+      "required": true,
+      "unique": true
+    },
+    "is_undisclosed": {
+      "type": "boolean",
+      "default": false,
+      "required": true,
+      "private": false
+    },
+    "description": {
+      "type": "string"
+    },
+    "homes": {
+      "via": "country",
+      "collection": "home"
+    },
+    "foster_locations": {
+      "via": "country",
+      "collection": "foster-location"
+    },
+    "country_notes": {
+      "via": "country",
+      "collection": "country-note"
+    }
+  }
+}

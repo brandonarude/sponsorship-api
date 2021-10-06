@@ -1,0 +1,44 @@
+{
+  "kind": "collectionType",
+  "collectionName": "foster_sponsorships",
+  "info": {
+    "name": "foster_sponsorship"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "foster_sponsorship_id": {
+      "type": "string",
+      "required": true,
+      "unique": true,
+      "private": true
+    },
+    "unique_id": {
+      "type": "uid",
+      "targetField": "foster_sponsorship_id",
+      "required": true,
+      "private": true
+    },
+    "sponsor": {
+      "model": "sponsor",
+      "via": "foster_sponsorships"
+    },
+    "foster_location": {
+      "model": "foster-location",
+      "via": "foster_sponsorships"
+    },
+    "amount_in_cents": {
+      "type": "integer",
+      "required": true,
+      "min": 0
+    },
+    "last_support_payment": {
+      "type": "biginteger",
+      "required": true
+    }
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/foster-sponsorships",
+      "handler": "foster-sponsorship.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/foster-sponsorships/count",
+      "handler": "foster-sponsorship.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/foster-sponsorships/:id",
+      "handler": "foster-sponsorship.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/foster-sponsorships",
+      "handler": "foster-sponsorship.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/foster-sponsorships/:id",
+      "handler": "foster-sponsorship.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/foster-sponsorships/:id",
+      "handler": "foster-sponsorship.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

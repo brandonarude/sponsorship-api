@@ -1,0 +1,36 @@
+{
+  "kind": "collectionType",
+  "collectionName": "Country_notes",
+  "info": {
+    "name": "Country_note"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "note_id": {
+      "type": "string",
+      "required": true,
+      "unique": true,
+      "private": true
+    },
+    "unique_id": {
+      "type": "uid",
+      "targetField": "note_id",
+      "required": true
+    },
+    "description": {
+      "type": "text",
+      "required": true,
+      "maxLength": 5000,
+      "private": true
+    },
+    "country": {
+      "model": "country",
+      "via": "country_notes"
+    }
+  }
+}

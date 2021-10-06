@@ -1,0 +1,15 @@
+{
+  "kind": "collectionType",
+  "collectionName": "Notes",
+  "info": {
+    "name": "Note",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {}
+}

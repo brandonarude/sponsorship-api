@@ -1,0 +1,101 @@
+{
+  "kind": "collectionType",
+  "collectionName": "Sponsors",
+  "info": {
+    "name": "Sponsor",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "sponsor_id": {
+      "type": "string",
+      "required": true,
+      "private": true,
+      "unique": true
+    },
+    "old_wp_post_id": {
+      "type": "string",
+      "private": true
+    },
+    "published": {
+      "type": "boolean",
+      "required": true,
+      "private": true
+    },
+    "first_name": {
+      "type": "string",
+      "required": true,
+      "default": "Undefined"
+    },
+    "last_name": {
+      "type": "string",
+      "required": true,
+      "default": "undefined"
+    },
+    "email": {
+      "type": "string",
+      "unique": false,
+      "required": false
+    },
+    "email2": {
+      "type": "string"
+    },
+    "street_address": {
+      "type": "string",
+      "private": true
+    },
+    "street_address_2": {
+      "type": "string",
+      "private": true
+    },
+    "city": {
+      "type": "string",
+      "private": true
+    },
+    "state_province": {
+      "type": "string",
+      "private": true
+    },
+    "zip_postal_code": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string",
+      "minLength": 4,
+      "maxLength": 15,
+      "private": true
+    },
+    "phone2": {
+      "type": "string",
+      "minLength": 4,
+      "maxLength": 15,
+      "private": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "unique_id": {
+      "type": "uid",
+      "targetField": "sponsor_id",
+      "required": true,
+      "private": false
+    },
+    "church": {
+      "via": "sponsors",
+      "model": "church"
+    },
+    "foster_sponsorships": {
+      "via": "sponsor",
+      "collection": "foster-sponsorship"
+    },
+    "sponsor_notes": {
+      "via": "sponsor",
+      "collection": "sponsor-note"
+    }
+  }
+}

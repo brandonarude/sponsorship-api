@@ -1,0 +1,83 @@
+{
+  "kind": "collectionType",
+  "collectionName": "Homes",
+  "info": {
+    "name": "Home",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "home_id": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "unique_id": {
+      "type": "uid",
+      "targetField": "home_id",
+      "required": true,
+      "private": true
+    },
+    "name": {
+      "type": "string",
+      "required": false,
+      "private": false,
+      "unique": true
+    },
+    "latitude": {
+      "type": "string",
+      "minLength": 2,
+      "required": true
+    },
+    "longitude": {
+      "type": "string",
+      "minLength": 2,
+      "required": true
+    },
+    "zoom": {
+      "type": "integer"
+    },
+    "sort_key": {
+      "type": "string",
+      "private": true,
+      "unique": true
+    },
+    "children": {
+      "collection": "child",
+      "via": "home"
+    },
+    "in_undisclosed_country": {
+      "type": "boolean",
+      "default": false,
+      "required": true,
+      "private": true
+    },
+    "child_count": {
+      "type": "integer",
+      "min": 0
+    },
+    "description": {
+      "type": "string"
+    },
+    "public_location": {
+      "type": "string"
+    },
+    "country": {
+      "model": "country",
+      "via": "homes"
+    },
+    "church_home_supports": {
+      "via": "home",
+      "collection": "church-home-support"
+    },
+    "home_notes": {
+      "via": "home",
+      "collection": "home-note"
+    }
+  }
+}

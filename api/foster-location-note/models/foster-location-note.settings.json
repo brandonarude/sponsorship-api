@@ -1,0 +1,36 @@
+{
+  "kind": "collectionType",
+  "collectionName": "Foster_location_notes",
+  "info": {
+    "name": "Foster_location_note"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "note_id": {
+      "type": "string",
+      "required": true,
+      "unique": true,
+      "private": true
+    },
+    "unique_id": {
+      "type": "uid",
+      "targetField": "note_id"
+    },
+    "description": {
+      "type": "text",
+      "required": true,
+      "private": true,
+      "maxLength": 5000,
+      "unique": false
+    },
+    "foster_location": {
+      "model": "foster-location",
+      "via": "foster_location_notes"
+    }
+  }
+}

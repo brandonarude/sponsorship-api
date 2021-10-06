@@ -1,0 +1,55 @@
+{
+  "kind": "collectionType",
+  "collectionName": "foster_locations",
+  "info": {
+    "name": "foster_location"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "foster_location_id": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "unique_id": {
+      "type": "uid",
+      "targetField": "foster_location_id",
+      "required": true
+    },
+    "country": {
+      "model": "country",
+      "via": "foster_locations"
+    },
+    "photo": {
+      "model": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images"
+      ],
+      "plugin": "upload",
+      "required": false,
+      "pluginOptions": {}
+    },
+    "description": {
+      "type": "text"
+    },
+    "in_undisclosed_country": {
+      "type": "boolean",
+      "default": false,
+      "required": true
+    },
+    "foster_sponsorships": {
+      "via": "foster_location",
+      "collection": "foster-sponsorship"
+    },
+    "foster_location_notes": {
+      "via": "foster_location",
+      "collection": "foster-location-note"
+    }
+  }
+}

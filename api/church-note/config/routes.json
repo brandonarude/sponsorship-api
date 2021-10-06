@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/church-notes",
+      "handler": "church-note.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/church-notes/count",
+      "handler": "church-note.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/church-notes/:id",
+      "handler": "church-note.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/church-notes",
+      "handler": "church-note.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/church-notes/:id",
+      "handler": "church-note.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/church-notes/:id",
+      "handler": "church-note.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

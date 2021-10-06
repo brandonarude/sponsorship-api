@@ -1,0 +1,100 @@
+{
+  "kind": "collectionType",
+  "collectionName": "Churches",
+  "info": {
+    "name": "Church",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "church_id": {
+      "type": "string",
+      "required": true,
+      "unique": true,
+      "private": true
+    },
+    "unique_id": {
+      "type": "uid",
+      "targetField": "church_id",
+      "required": true,
+      "private": true
+    },
+    "old_wp_post_id": {
+      "type": "string",
+      "private": true
+    },
+    "name": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "url": {
+      "type": "string",
+      "regex": "[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)"
+    },
+    "logo": {
+      "model": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images"
+      ],
+      "plugin": "upload",
+      "required": false,
+      "pluginOptions": {}
+    },
+    "is_cma": {
+      "type": "boolean",
+      "default": false,
+      "required": true,
+      "private": true
+    },
+    "city": {
+      "type": "string",
+      "required": true,
+      "private": true
+    },
+    "state": {
+      "type": "string",
+      "private": true,
+      "required": true
+    },
+    "country": {
+      "type": "string",
+      "required": true,
+      "private": true
+    },
+    "latitude": {
+      "type": "string",
+      "required": false,
+      "private": true
+    },
+    "longitude": {
+      "type": "string",
+      "private": true
+    },
+    "zoom": {
+      "type": "integer",
+      "default": 5
+    },
+    "description": {
+      "type": "string"
+    },
+    "sponsors": {
+      "collection": "sponsor",
+      "via": "church"
+    },
+    "church_home_supports": {
+      "via": "church",
+      "collection": "church-home-support"
+    },
+    "church_notes": {
+      "via": "church",
+      "collection": "church-note"
+    }
+  }
+}

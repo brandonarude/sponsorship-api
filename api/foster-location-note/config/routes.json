@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/foster-location-notes",
+      "handler": "foster-location-note.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/foster-location-notes/count",
+      "handler": "foster-location-note.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/foster-location-notes/:id",
+      "handler": "foster-location-note.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/foster-location-notes",
+      "handler": "foster-location-note.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/foster-location-notes/:id",
+      "handler": "foster-location-note.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/foster-location-notes/:id",
+      "handler": "foster-location-note.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "kind": "collectionType",
+  "collectionName": "church_home_supports",
+  "info": {
+    "name": "church_home_support"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "support_id": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "unique_id": {
+      "type": "uid",
+      "targetField": "support_id",
+      "required": true
+    },
+    "church": {
+      "model": "church",
+      "via": "church_home_supports"
+    },
+    "home": {
+      "model": "home",
+      "via": "church_home_supports"
+    }
+  }
+}

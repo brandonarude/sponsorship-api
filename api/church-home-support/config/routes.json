@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/church-home-supports",
+      "handler": "church-home-support.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/church-home-supports/count",
+      "handler": "church-home-support.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/church-home-supports/:id",
+      "handler": "church-home-support.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/church-home-supports",
+      "handler": "church-home-support.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/church-home-supports/:id",
+      "handler": "church-home-support.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/church-home-supports/:id",
+      "handler": "church-home-support.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}
