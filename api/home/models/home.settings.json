@@ -68,8 +68,8 @@
       "type": "string"
     },
     "country": {
-      "model": "country",
-      "via": "homes"
+      "via": "homes",
+      "model": "country"
     },
     "church_home_supports": {
       "via": "home",
@@ -78,6 +78,12 @@
     "home_notes": {
       "via": "home",
       "collection": "home-note"
+    },
+    "home_name": {
+      "type": "string",
+      "required": true,
+      "private": false,
+      "unique": true
     }
   }
 }

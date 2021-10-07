@@ -26,8 +26,8 @@
       "via": "church_home_supports"
     },
     "home": {
-      "model": "home",
-      "via": "church_home_supports"
+      "via": "church_home_supports",
+      "model": "home"
     }
   }
 }

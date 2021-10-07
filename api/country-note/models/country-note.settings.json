@@ -29,8 +29,8 @@
       "private": true
     },
     "country": {
-      "model": "country",
-      "via": "country_notes"
+      "via": "country_notes",
+      "model": "country"
     }
   }
 }

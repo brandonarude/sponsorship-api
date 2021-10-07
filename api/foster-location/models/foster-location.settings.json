@@ -22,8 +22,8 @@
       "required": true
     },
     "country": {
-      "model": "country",
-      "via": "foster_locations"
+      "via": "foster_locations",
+      "model": "country"
     },
     "photo": {
       "model": "file",
