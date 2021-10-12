@@ -2,7 +2,8 @@
   "kind": "collectionType",
   "collectionName": "Sponsorships",
   "info": {
-    "name": "Sponsorship"
+    "name": "Sponsorship",
+    "description": ""
   },
   "options": {
     "increments": true,
@@ -45,6 +46,14 @@
     },
     "level_name": {
       "type": "string"
+    },
+    "child": {
+      "model": "child",
+      "via": "sponsorships"
+    },
+    "sponsor": {
+      "model": "sponsor",
+      "via": "sponsorships"
     }
   }
 }

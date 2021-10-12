@@ -84,6 +84,8 @@ public/uploads/*
 !public/uploads/.gitkeep
 .ENV
 .countryData.json
+test-data/*
+.NotesOnImporting
 
 ############################
 # Node.js

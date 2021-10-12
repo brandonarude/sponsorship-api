@@ -96,6 +96,10 @@
     "sponsor_notes": {
       "via": "sponsor",
       "collection": "sponsor-note"
+    },
+    "sponsorships": {
+      "via": "sponsor",
+      "collection": "sponsorship"
     }
   }
 }

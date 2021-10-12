@@ -31,13 +31,11 @@
     },
     "latitude": {
       "type": "string",
-      "minLength": 2,
-      "required": true
+      "required": false
     },
     "longitude": {
       "type": "string",
-      "minLength": 2,
-      "required": true
+      "required": false
     },
     "zoom": {
       "type": "integer"

@@ -105,6 +105,10 @@
     "child_notes": {
       "via": "child",
       "collection": "child-note"
+    },
+    "sponsorships": {
+      "via": "child",
+      "collection": "sponsorship"
     }
   }
 }
