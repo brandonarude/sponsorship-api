@@ -14,19 +14,13 @@
   "attributes": {
     "child_id": {
       "type": "string",
-      "minLength": 7,
-      "regex": "^[a-zA-Z]{2,}\\d{2,}-\\d{2,}$"
+      "required": true,
+      "unique": true,
+      "minLength": 5
     },
     "old_wp_post_id": {
       "type": "string",
       "unique": true,
-      "private": true,
-      "regex": "^\\d+$"
-    },
-    "published": {
-      "type": "boolean",
-      "default": false,
-      "required": true,
       "private": true
     },
     "first_name": {
@@ -35,11 +29,8 @@
     },
     "last_name": {
       "type": "string",
-      "required": true,
+      "required": false,
       "private": true
-    },
-    "birthday": {
-      "type": "biginteger"
     },
     "gender": {
       "type": "enumeration",
@@ -47,7 +38,7 @@
         "female",
         "male"
       ],
-      "required": true
+      "required": false
     },
     "description": {
       "type": "text"
@@ -56,14 +47,18 @@
       "type": "string",
       "private": true
     },
-    "date_archived": {
-      "type": "biginteger",
-      "private": true
-    },
     "exit_status": {
       "type": "enumeration",
       "enum": [
-        "Behavior"
+        "still_active",
+        "ninth_grade_certificate",
+        "grad_vocational_school",
+        "grad_college",
+        "college_scholarship",
+        "marriage",
+        "behavior",
+        "family_request",
+        "other"
       ],
       "private": true
     },
@@ -74,7 +69,7 @@
     "in_undisclosed_country": {
       "type": "boolean",
       "default": false,
-      "required": true,
+      "required": false,
       "private": true
     },
     "total_sponsorships": {
@@ -82,11 +77,11 @@
       "min": 0,
       "private": false,
       "default": 0,
-      "required": true
+      "required": false
     },
     "total_sponsorship_dollars": {
       "type": "integer",
-      "required": true,
+      "required": false,
       "default": 0,
       "private": false,
       "min": 0,
@@ -109,6 +104,39 @@
     "sponsorships": {
       "via": "child",
       "collection": "sponsorship"
+    },
+    "date_archived": {
+      "type": "datetime",
+      "default": "1970-01-01T20:00:00.000Z",
+      "private": true
+    },
+    "country": {
+      "model": "country",
+      "via": "children"
+    },
+    "publish_status": {
+      "type": "enumeration",
+      "enum": [
+        "archive",
+        "auto_draft",
+        "draft",
+        "inactive",
+        "inherit",
+        "over_18",
+        "pending",
+        "private",
+        "publish",
+        "trash"
+      ],
+      "default": "publish"
+    },
+    "wp_post_date_gmt": {
+      "type": "datetime",
+      "default": "2008-10-13T19:00:00.000Z"
+    },
+    "birthday": {
+      "type": "datetime",
+      "default": "1970-01-01T20:00:00.000Z"
     }
   }
 }

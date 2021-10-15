@@ -29,8 +29,8 @@
       "maxLength": 5000
     },
     "child": {
-      "model": "child",
-      "via": "child_notes"
+      "via": "child_notes",
+      "model": "child"
     }
   }
 }

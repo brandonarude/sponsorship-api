@@ -48,8 +48,8 @@
       "type": "string"
     },
     "child": {
-      "model": "child",
-      "via": "sponsorships"
+      "via": "sponsorships",
+      "model": "child"
     },
     "sponsor": {
       "model": "sponsor",

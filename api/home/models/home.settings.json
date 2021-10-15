@@ -46,8 +46,8 @@
       "unique": true
     },
     "children": {
-      "collection": "child",
-      "via": "home"
+      "via": "home",
+      "collection": "child"
     },
     "in_undisclosed_country": {
       "type": "boolean",

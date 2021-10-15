@@ -56,6 +56,10 @@
       "private": true,
       "maxLength": 50,
       "unique": true
+    },
+    "children": {
+      "via": "country",
+      "collection": "child"
     }
   }
 }

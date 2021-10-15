@@ -30,42 +30,31 @@
     },
     "name": {
       "type": "string",
-      "required": true,
+      "required": false,
       "unique": true
     },
     "url": {
-      "type": "string",
-      "regex": "[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)"
-    },
-    "logo": {
-      "model": "file",
-      "via": "related",
-      "allowedTypes": [
-        "images"
-      ],
-      "plugin": "upload",
-      "required": false,
-      "pluginOptions": {}
+      "type": "string"
     },
     "is_cma": {
       "type": "boolean",
       "default": false,
-      "required": true,
+      "required": false,
       "private": true
     },
     "city": {
       "type": "string",
-      "required": true,
+      "required": false,
       "private": true
     },
     "state": {
       "type": "string",
       "private": true,
-      "required": true
+      "required": false
     },
     "country": {
       "type": "string",
-      "required": true,
+      "required": false,
       "private": true
     },
     "latitude": {
@@ -95,6 +84,10 @@
     "church_notes": {
       "via": "church",
       "collection": "church-note"
+    },
+    "logo_url": {
+      "type": "string",
+      "private": false
     }
   }
 }

@@ -30,8 +30,8 @@
       "private": true
     },
     "church": {
-      "model": "church",
-      "via": "church_notes"
+      "via": "church_notes",
+      "model": "church"
     }
   }
 }
