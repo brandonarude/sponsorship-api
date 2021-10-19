@@ -282,7 +282,7 @@ async function ImportChildren(data){
 };
 
 async function ImportChurches(data){
-    let i = 1;
+
     console.log(data.CHURCHES.CHURCH.length);
     await Promise.all(data.CHURCHES.CHURCH.map( async (element) =>  {
         let code = "";
@@ -299,9 +299,6 @@ async function ImportChurches(data){
         let homes = "";
         let description = "";
             
-
-        console.log(i.toString());
-        i++;
         element.postmeta.forEach(meta =>{
             switch(meta.meta_key.__cdata){
                 case "nhu_code":
@@ -335,57 +332,51 @@ async function ImportChurches(data){
                     logo = meta.meta_value.__cdata.toString();
                     break;
                 case "is_cma":
-                    is_cma = (meta.meta_value.__cdata === 'true');
+                    is_cma = meta.meta_value.__cdata;
                     break;
                 case "city":
                     city = meta.meta_value.__cdata.toString();
                     break;
                 case "homes":
-                    homes = meta.meta_value.__cdata.toString();
-                    homes = homes.split(',');
+                    if(meta.meta_value.__cdata.toString() != "") homes = meta.meta_value.__cdata.toString().split(',');
+                    console.log(homes);
                     break;
             }
         });
 
-        console.log(element.title);
-        console.log(code);
-        console.log(element.post_id.__text);
         let results = await strapi.services.church.create({
             church_id: code.toString(), //required
             unique_id: code.toString(),
             old_wp_post_id: element.post_id.__text, //element.post_id.__text.toString(), //required
-            //"name": "thing",//element.title,
-            //"url": url,
-            //"logo_url": logo, // Media
-            //"is_cma": is_cma, //Bool
-            // "city": city,
-            // "state": state,
-            // "country": country,
-            // "latitude": lon,
-            // "longitude": lat,
-            // "zoom": zoom, //Number
-            // "description": description,
+            "name": name,
+            "url": url,
+            "logo_url": logo,
+            "is_cma": is_cma, //Bool
+            "city": city,
+            "state": state,
+            "country": country,
+            "latitude": lon,
+            "longitude": lat,
+            "zoom": zoom, //Number
+            "description": description,
         });
 
-
+        // Create church_home_support record
         if(typeof results.id != 'undefined' && homes.length > 0){
             await Promise.all(homes.map(async (home) => {
-
-                console.log(results);
                 
                 let home_result = await strapi.query('home').find({home_id: home.toString()});
-                if(typeof home_result != 'undefined'){
-                    console.log(home_result);
-                }
-                if(typeof home_result[0].id != 'undefined'){
+                if(typeof home_result != 'undefined') console.log(home_result[0].id);
+                if(typeof home_result != 'undefined' && typeof home_result[0].id != 'undefined'){
 
-                    home_id = home_result[0].id;
-                    console.log("This is " + home_id);
+                    let home_id = home_result[0].id;
                     
-                    // strapi.services.church_home_support.create({
-                    //     church: "",
-                    //     home:"",
-                    // });
+                    strapi.services['church-home-support'].create({
+                        church: results.id,
+                        church_name: name,
+                        home: home_id,
+                        home_name: home_result[0].name,
+                    });
                 }
             }));
                     

@@ -19,6 +19,15 @@
     "home": {
       "via": "church_home_supports",
       "model": "home"
+    },
+    "church_name": {
+      "type": "string",
+      "required": true,
+      "unique": false
+    },
+    "home_name": {
+      "type": "string",
+      "required": true
     }
   }
 }
