@@ -74,8 +74,8 @@
       "type": "string"
     },
     "sponsors": {
-      "collection": "sponsor",
-      "via": "church"
+      "via": "church",
+      "collection": "sponsor"
     },
     "church_home_supports": {
       "via": "church",

@@ -24,8 +24,8 @@
       "private": true
     },
     "sponsor": {
-      "model": "sponsor",
-      "via": "foster_sponsorships"
+      "via": "foster_sponsorships",
+      "model": "sponsor"
     },
     "foster_location": {
       "model": "foster-location",

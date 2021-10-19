@@ -52,8 +52,8 @@
       "model": "child"
     },
     "sponsor": {
-      "model": "sponsor",
-      "via": "sponsorships"
+      "via": "sponsorships",
+      "model": "sponsor"
     }
   }
 }

@@ -114,7 +114,8 @@ async function ImportHomes(data){
 async function ImportChildren(data){
     let data_length = data.CHILDREN.CHILD.length;
     let single = [];
-    for(let i = 0; i<100 && i<data_length; i++){
+    // TODO remove limit on children to add to database
+    for(let i = 0; i<data_length; i++){
         if(data.CHILDREN.CHILD[i].title != "Auto Draft"){     
             single[i] = data.CHILDREN.CHILD[i];
         }
@@ -384,6 +385,134 @@ async function ImportChurches(data){
     }));
 };
 
+async function importSponsors(data){
+    let data_length = data.SPONSORS.SPONSOR.length;
+    let single = [];
+    for(let i = 0; i<data_length; i++){
+        if(data.SPONSORS.SPONSOR[i].title != "Auto Draft"){     
+            single[i] = data.SPONSORS.SPONSOR[i];
+        }
+    }
+    try{
+        await Promise.all(single.map( async (element) =>  {
+            let code = "";
+            let wp_post_id = element.post_id.__text.toString();
+            let published = true;
+            let first_name = "";
+            let last_name = "";
+            let email = "";
+            let email2 = "";
+            let street_address = "";
+            let street_address2 = "";
+            let city = "";
+            let state_province = "";
+            let zip = "";
+            let phone = "";
+            let phone2 = "";
+            let description = element.description.toString();
+            let church = "";
+            let post_date = new Date("1970-01-01 08:00:00");
+
+            element.postmeta.forEach(meta =>{
+                switch(meta.meta_key.__cdata){
+                    case "nhu_code":
+                        code = meta.meta_value.__cdata.toString();
+                        break;
+                    case "first_name":
+                        first_name = meta.meta_value.__cdata.toString();
+                        break;
+                    case "last_name":
+                        last_name = meta.meta_value.__cdata.toString();
+                        break;
+                    case "email":
+                        email = meta.meta_value.__cdata.toString();
+                        break;
+                    case "email2":
+                        email2 = meta.meta_value.__cdata.toString();
+                        break;
+                    case "address":
+                        street_address = meta.meta_value.__cdata.toString();
+                        break;
+                    case "address2":
+                        street_address2 = meta.meta_value.__cdata.toString();
+                        break;
+                    case "city":
+                        city = meta.meta_value.__cdata.toString();
+                        break;
+                    case "state":
+                        state_province = meta.meta_value.__cdata.toString();
+                        break;
+                    case "zip":
+                        zip = meta.meta_value.__cdata.toString();
+                        break;
+                    case "phone":
+                        phone = meta.meta_value.__cdata.toString();
+                        break;
+                    case "phone2":
+                        phone2 = meta.meta_value.__cdata.toString();
+                        break;
+                    case "phone2":
+                        phone2 = meta.meta_value.__cdata.toString();
+                        break;
+                    case "church":
+                        if(meta.meta_value.__cdata.toString() != "") church = meta.meta_value.__cdata.toString();
+                        break;
+                    case "post_date_gmt":
+                        post_date = new Date(element.post_date_gmt.__cdata);
+                    
+                    
+                }
+            });
+
+            if(element.status.__cdata.toString != "publish"){
+                published = false;
+            }
+
+            post_date = post_date.toISOString();
+            
+            if(church != ""){
+                console.log(code + " is part of " + church);
+                let church_result = await strapi.query('church').find({church_id: church});
+                if(typeof church_result != 'undefined' && typeof church_result[0].id != 'undefined'){
+                    church = church_result[0].id;
+                } else {
+                    church = "";
+                }
+            }
+
+            try{
+                console.log(element.post_name.__cdata);
+                strapi.services.sponsor.create({
+                    "sponsor_id": code, // Required
+                    "unique_id": code, // Required
+                    "old_wp_post_id": wp_post_id, 
+                    "published": published, //Required
+                    "first_name": first_name, //Required
+                    "last_name": last_name, //Required
+                    "email": email,
+                    "email2": email2, 
+                    "street_address": street_address, 
+                    "street_address2": street_address2,
+                    "city": city,
+                    "state_province": state_province, 
+                    "zip_postal_code": zip,
+                    "phone": phone, 
+                    "phone2": phone2, 
+                    "description": description, 
+                    "church" : church,
+                    "wp_post_date_gmt": post_date
+                });
+            } catch (err) {
+                console.error("There was an error:" + err);
+            }
+            
+            
+        }));
+    } catch(err){
+        console.log(err);
+    }
+}
+
 
 module.exports = async () => {
     // Import Countries from .countryData.json in test-data directory
@@ -401,5 +530,10 @@ module.exports = async () => {
     // Import churches from .churchData.json in test-data directory
     // const churches_json = require('../../test-data/.churchData.json');
     // ImportChurches(churches_json);
-    
+
+    // Import churches from .sponsorData.json in test-data directory
+    // const sponsors_json = require('../../test-data/.sponsorData.json');
+    // importSponsors(sponsors_json);
+
+
 };
