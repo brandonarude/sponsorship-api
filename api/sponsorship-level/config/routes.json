@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/sponsorship-levels",
+      "handler": "sponsorship-level.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/sponsorship-levels/count",
+      "handler": "sponsorship-level.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/sponsorship-levels/:id",
+      "handler": "sponsorship-level.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/sponsorship-levels",
+      "handler": "sponsorship-level.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/sponsorship-levels/:id",
+      "handler": "sponsorship-level.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/sponsorship-levels/:id",
+      "handler": "sponsorship-level.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

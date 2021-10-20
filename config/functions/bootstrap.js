@@ -12,6 +12,16 @@ const { default: createStrapi } = require('strapi');
  * See more details here: https://strapi.io/documentation/developer-docs/latest/setup-deployment-guides/configurations.html#bootstrap
  */
 
+function ImportSponsorLevel(data){
+    data.LEVELS.LEVEL.map((element)=>{
+        strapi.services['sponsorship-level'].create({
+            'level_name': element.name,
+            'level_amount_in_cents': element.amount_in_cents,
+            'published': element.published
+        });
+    });
+}
+
 function ImportCountry(data){
     data.COUNTRIES.COUNTRY.forEach(element => {
         console.log(element.country_id);
@@ -385,7 +395,7 @@ async function ImportChurches(data){
     }));
 };
 
-async function importSponsors(data){
+async function ImportSponsors(data){
     let data_length = data.SPONSORS.SPONSOR.length;
     let single = [];
     for(let i = 0; i<data_length; i++){
@@ -513,8 +523,96 @@ async function importSponsors(data){
     }
 }
 
+async function ImportSponsorships(data){
+    let sponsorshipSample = [];
+    for(let i=0;i<10 && i<data.SPONSORSHIPS.SPONSORSHIP.length;i++){
+        sponsorshipSample[i] = data.SPONSORSHIPS.SPONSORSHIP[i]
+    }
+    sponsorshipSample.map(async (element) =>{
+        let sponsor_id = "";
+        let child_id = "";
+        let amount_in_cents = 0;
+        let deactivated_by = "";
+        let level_name = "";
+        let level_id = 5; //Default, Unnamed
+        let wp_post_id = element.post_id.__text.toString();
+        let frequency = "";
+        let created_date = new Date("1970-01-01 08:00:00");
+        let db_child_id = "";
+        let db_sponsor_id = "";
+        let db_sponsor_first_name = "";
+        let db_sponsor_last_name = "";
+
+        element.postmeta.forEach(meta => {
+            switch(meta.meta_key.__cdata.toString()){
+                case "sponsor":
+                    sponsor_id = meta.meta_value.__cdata.toString();
+                    break;
+                case "child":
+                    child_id = meta.meta_value.__cdata.toString();
+                    break;
+                case "amount":
+                    amount_in_cents = parseInt(meta.meta_value.__cdata) * 100;
+                    console.log(amount_in_cents.toString());
+                    break;
+                case "level":
+                    level_name = meta.meta_value.__cdata.toString();
+                    break;
+                case "frequency":
+                    frequency = meta.meta_value.__cdata.toString();
+                    break;
+            }
+        });
+
+        created_date = new Date(element.post_date.__cdata.toString()).toISOString();
+            
+        try{
+
+            console.log("about to query level");
+            let level_result = await strapi.query('sponsorship-level').find({level_name:level_name[0].toUpperCase() + level_name.slice(1).toLowerCase()});
+            if(typeof level_result != 'undefined' && typeof level_result[0].id != 'undefined') level_id = level_result[0].id;
+
+            console.log("about to query child: " + child_id);
+            let child_result = await strapi.query('child').find({child_id:child_id});
+            if(typeof child_result != 'undefined' && typeof child_result[0].id != 'undefined') db_child_id = child_result[0].id;
+
+            console.log("about to query sponsor: " + sponsor_id);
+            let sponsor_result = await strapi.query('sponsor').find({sponsor_id:sponsor_id});
+            console.log(sponsor_result);
+            if(typeof sponsor_result != 'undefined' && typeof sponsor_result[0].id != 'undefined') {
+                db_sponsor_id = sponsor_result[0].id;
+                if(typeof sponsor_result[0].first_name) db_sponsor_first_name = sponsor_result[0].first_name;
+                if(typeof sponsor_result[0].last_name) db_sponsor_last_name = sponsor_result[0].last_name;
+            }
+        } catch(err){
+            console.log("There was an error of the following type: " + err);
+        }
+            
+        strapi.services.sponsorship.create({
+            sponsor_id: sponsor_id,
+            sponsor_full_name: db_sponsor_last_name + ", " + db_sponsor_first_name,
+            child_id: child_id,
+            amount_in_cents: amount_in_cents,
+            deactivated_by: deactivated_by,
+            child:  db_child_id,
+            sponsor: db_sponsor_id,
+            sponsorship_level: level_id,
+            wp_post_id: wp_post_id,
+            frequency: frequency,
+            created_date: created_date,
+        });
+    });
+    
+}
+
 
 module.exports = async () => {
+    // TODO use built in published functionality in Strapi instead of custom field
+
+    // Import Sponsor Levels from .sponsorLevelData.json in test-data directory
+    // const level_json = require('../../test-data/.sponsorLevelData.json');
+    // ImportSponsorLevel(level_json);
+
     // Import Countries from .countryData.json in test-data directory
     // const country_json = require('../../test-data/.countryData.json');
     // ImportCountry(country_json);
@@ -531,9 +629,14 @@ module.exports = async () => {
     // const churches_json = require('../../test-data/.churchData.json');
     // ImportChurches(churches_json);
 
-    // Import churches from .sponsorData.json in test-data directory
+    // Import sponsors from .sponsorData.json in test-data directory
     // const sponsors_json = require('../../test-data/.sponsorData.json');
-    // importSponsors(sponsors_json);
+    // ImportSponsors(sponsors_json);
+
+    // Import sponsorships from .sponsorshipData.json in test-data directory
+    //TODO work in how to handle pending sponsorships.
+    // const sponsorships_json = require('../../test-data/.sponsorshipData.json');
+    // ImportSponsorships(sponsorships_json);
 
 
 };

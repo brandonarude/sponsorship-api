@@ -1,0 +1,33 @@
+{
+  "kind": "collectionType",
+  "collectionName": "sponsorship_levels",
+  "info": {
+    "name": "sponsorship_level",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "level_name": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "level_amount_in_cents": {
+      "type": "biginteger",
+      "required": true
+    },
+    "published": {
+      "type": "boolean",
+      "required": true
+    },
+    "sponsorships": {
+      "via": "sponsorship_level",
+      "collection": "sponsorship"
+    }
+  }
+}

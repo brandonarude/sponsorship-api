@@ -12,18 +12,6 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "post_id": {
-      "type": "string",
-      "private": true,
-      "unique": true,
-      "required": true
-    },
-    "unique_id": {
-      "type": "uid",
-      "targetField": "post_id",
-      "private": true,
-      "required": true
-    },
     "sponsor_id": {
       "type": "string",
       "required": true
@@ -41,12 +29,6 @@
       "type": "string",
       "private": true
     },
-    "last_sponsorship_payment": {
-      "type": "biginteger"
-    },
-    "level_name": {
-      "type": "string"
-    },
     "child": {
       "via": "sponsorships",
       "model": "child"
@@ -54,6 +36,22 @@
     "sponsor": {
       "via": "sponsorships",
       "model": "sponsor"
+    },
+    "last_sponsorship_payment_date": {
+      "type": "datetime"
+    },
+    "sponsorship_level": {
+      "model": "sponsorship-level",
+      "via": "sponsorships"
+    },
+    "sponsor_full_name": {
+      "type": "string"
+    },
+    "created_date": {
+      "type": "datetime"
+    },
+    "wp_post_id": {
+      "type": "string"
     }
   }
 }
