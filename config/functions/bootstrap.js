@@ -542,6 +542,15 @@ async function ImportSponsorships(data){
         let db_sponsor_id = "";
         let db_sponsor_first_name = "";
         let db_sponsor_last_name = "";
+        let post_status = "";
+
+        created_date = new Date(element.post_date.__cdata.toString()).toISOString();
+        if(element.status.__cdata.toString() == 'publish'){
+            console.log("this one is published");
+            post_status = created_date;
+        } else {
+            post_status = null;
+        }
 
         element.postmeta.forEach(meta => {
             switch(meta.meta_key.__cdata.toString()){
@@ -564,7 +573,7 @@ async function ImportSponsorships(data){
             }
         });
 
-        created_date = new Date(element.post_date.__cdata.toString()).toISOString();
+        
             
         try{
 
@@ -600,6 +609,7 @@ async function ImportSponsorships(data){
             wp_post_id: wp_post_id,
             frequency: frequency,
             created_date: created_date,
+            published_at: post_status,
         });
     });
     

@@ -5,4 +5,15 @@
  * to customize this model
  */
 
-module.exports = {};
+module.exports = {
+
+    /*
+     * Trigger before sponsor creation
+     */
+    lifecycles : {
+        async beforeCreate(data){
+            data.last_name_first_name = data.last_name + ", " + data.first_name;
+        }
+    }
+
+};

@@ -100,6 +100,9 @@
     "wp_post_date_gmt": {
       "type": "datetime",
       "default": "2008-01-01T20:00:00.000Z"
+    },
+    "last_name_first_name": {
+      "type": "string"
     }
   }
 }
