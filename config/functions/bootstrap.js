@@ -130,7 +130,6 @@ async function ImportChildren(data){
             single[i] = data.CHILDREN.CHILD[i];
         }
     }
-    console.log(single[1]);
     try{
         await Promise.all(single.map( async (element) =>  {
             let code = "";
@@ -150,6 +149,7 @@ async function ImportChildren(data){
             let sponsorship_in_dollars = 0;
             let in_undisclosed_country = false;
             let published = true;
+            let post_status = null;
 
             element.postmeta.forEach(meta =>{
                 switch(meta.meta_key.__cdata){
@@ -244,23 +244,25 @@ async function ImportChildren(data){
             }
             post_date = post_date.toISOString();
 
+            // Sets variable for strapi's built-in publish system
+            if(element.status.__cdata.toString() == 'publish'){
+                post_status = post_date;
+            } else {
+                post_status = null;
+            }
+
             if(home == ""){
                 let regex = /[A-Za-z]{2,4}\d{1,2}/;
                 console.log(code);
                 home = code.match(regex)[0];
             }
 
-            console.log("Querying on: " + home);
             let home_result = await strapi.query('home').find({home_id: home});
-            console.log("Home Result: " + home_result[0].id);
+
             let home_id = home_result[0].id;
-            console.log("this county id is: " + home_result[0].country.id);
             let home_country = home_result[0].country.id;
-            console.log("This is " + home_id + " in " + home_country);
-            console.log("wp_post_id is: " + wp_post_id);
 
             try{
-                console.log(element.post_name.__cdata);
                 strapi.services.child.create({
                     "child_id": code, //Required
                     "unique_id": code, //Required
@@ -279,7 +281,8 @@ async function ImportChildren(data){
                     "home": home_id, //home_id
                     "exit_status": exit_status,
                     "country" : home_country,
-                    "wp_post_date_gmt": post_date // Date
+                    "wp_post_date_gmt": post_date, // Date
+                    "published_at": post_status,
                 });
             } catch (err) {
                 console.error("There was an error:" + err);
@@ -291,6 +294,14 @@ async function ImportChildren(data){
         console.log(err);
     }
 };
+
+async function DeleteChildren(){
+    let deletionArray = [];
+    deletionArray = await strapi.query('child').find({ _limit: 50000});
+    await Promise.all(deletionArray.map(async (entry)=>{
+        strapi.query('child').delete({id: entry.id});
+    }));
+}
 
 async function ImportChurches(data){
 
@@ -422,6 +433,9 @@ async function ImportSponsors(data){
             let description = element.description.toString();
             let church = "";
             let post_date = new Date("1970-01-01 08:00:00");
+            let post_status = null;
+
+            
 
             element.postmeta.forEach(meta =>{
                 switch(meta.meta_key.__cdata){
@@ -479,6 +493,13 @@ async function ImportSponsors(data){
             }
 
             post_date = post_date.toISOString();
+
+            // Sets variable for strapi's built-in publish system
+            if(element.status.__cdata.toString() == 'publish'){
+                post_status = post_date;
+            } else {
+                post_status = null;
+            }
             
             if(church != ""){
                 console.log(code + " is part of " + church);
@@ -510,7 +531,8 @@ async function ImportSponsors(data){
                     "phone2": phone2, 
                     "description": description, 
                     "church" : church,
-                    "wp_post_date_gmt": post_date
+                    "wp_post_date_gmt": post_date,
+                    "published_at": post_status
                 });
             } catch (err) {
                 console.error("There was an error:" + err);
@@ -523,9 +545,17 @@ async function ImportSponsors(data){
     }
 }
 
+async function DeleteSponsors(){
+    let deletionArray = [];
+    deletionArray = await strapi.query('sponsor').find({ _limit: 1000});
+    await Promise.all(deletionArray.map(async (entry)=>{
+        strapi.query('sponsor').delete({id: entry.id});
+    }));
+}
+
 async function ImportSponsorships(data){
     let sponsorshipSample = [];
-    for(let i=0;i<10 && i<data.SPONSORSHIPS.SPONSORSHIP.length;i++){
+    for(let i=0;i<200 && i<data.SPONSORSHIPS.SPONSORSHIP.length;i++){
         sponsorshipSample[i] = data.SPONSORSHIPS.SPONSORSHIP[i]
     }
     sponsorshipSample.map(async (element) =>{
@@ -545,8 +575,9 @@ async function ImportSponsorships(data){
         let post_status = "";
 
         created_date = new Date(element.post_date.__cdata.toString()).toISOString();
+
+        // Sets variable for strapi's built-in publish system
         if(element.status.__cdata.toString() == 'publish'){
-            console.log("this one is published");
             post_status = created_date;
         } else {
             post_status = null;
@@ -615,9 +646,23 @@ async function ImportSponsorships(data){
     
 }
 
+async function DeleteSponsorships(){
+    let deletionArray = [];
+    deletionArray = await strapi.query('sponsorship').find({ _limit: 50000});
+    await Promise.all(deletionArray.map(async (entry)=>{
+        strapi.query('sponsorship').delete({id: entry.id});
+    }));
+}
+
 
 module.exports = async () => {
     // TODO use built in published functionality in Strapi instead of custom field
+
+    // Clear data from specific collection types. 
+    // TODO Delete before production
+    // DeleteSponsors();
+    // DeleteChildren();
+    // DeleteSponsorships();
 
     // Import Sponsor Levels from .sponsorLevelData.json in test-data directory
     // const level_json = require('../../test-data/.sponsorLevelData.json');
@@ -644,9 +689,10 @@ module.exports = async () => {
     // ImportSponsors(sponsors_json);
 
     // Import sponsorships from .sponsorshipData.json in test-data directory
-    //TODO work in how to handle pending sponsorships.
-    // const sponsorships_json = require('../../test-data/.sponsorshipData.json');
-    // ImportSponsorships(sponsorships_json);
+    const sponsorships_json = require('../../test-data/.sponsorshipData.json');
+    ImportSponsorships(sponsorships_json);
+
+    
 
 
 };
