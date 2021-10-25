@@ -689,8 +689,8 @@ module.exports = async () => {
     // ImportSponsors(sponsors_json);
 
     // Import sponsorships from .sponsorshipData.json in test-data directory
-    const sponsorships_json = require('../../test-data/.sponsorshipData.json');
-    ImportSponsorships(sponsorships_json);
+    // const sponsorships_json = require('../../test-data/.sponsorshipData.json');
+    // ImportSponsorships(sponsorships_json);
 
     
 
