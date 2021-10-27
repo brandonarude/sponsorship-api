@@ -82,8 +82,6 @@ ssl
 nbproject
 public/uploads/*
 !public/uploads/.gitkeep
-.ENV
-.env
 .countryData.json
 test-data/*
 .NotesOnImporting
@@ -117,3 +115,5 @@ exports
 *.cache
 build
 .strapi-updater.json
+config/server.js
+config/database.js
