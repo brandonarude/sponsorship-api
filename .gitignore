@@ -83,6 +83,7 @@ nbproject
 public/uploads/*
 !public/uploads/.gitkeep
 .ENV
+.env
 .countryData.json
 test-data/*
 .NotesOnImporting

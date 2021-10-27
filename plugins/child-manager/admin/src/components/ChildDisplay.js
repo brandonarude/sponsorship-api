@@ -1,8 +1,12 @@
 import React, {Component} from 'react';
 import axios from 'axios';
+import ChildDisplayEntry from "./ChildDisplayEntry.js";
+import "./styles/ChildManager.css";
+//const dotenv = require('dotenv');
 
 class ChildDisplay extends Component{
     constructor(props){
+        //dotenv.config();
         super(props);
         this.state={
             children: [],
@@ -34,6 +38,7 @@ class ChildDisplay extends Component{
 
     render(){
         console.log(this.state.loading);
+        //console.log(process.env.API_URL);
         let content = [];
         if(this.state.loading === true){
             console.log("still loading");
@@ -43,15 +48,18 @@ class ChildDisplay extends Component{
             let i = 0;
             this.state.children.forEach((child) => {
                 console.log(child.id);
-                content[i] = <p key={child.id}>{"hello " + child.id}<br /></p>;
+                content[i] = <ChildDisplayEntry childCode={child.child_id} recordId={child.id} homeId={child.home.id} homeCode={child.home.home_id}/>
                 console.log(content[i]);
                 i++
             })
         }
         return (
             <div>
-                {console.log("rendering with " + this.state.loading)}
-                {content}
+                <h1>Hello</h1>
+                <div className="container">
+                    {console.log("rendering with " + this.state.loading)}
+                    {content}
+                </div>
             </div>
         )
     }
