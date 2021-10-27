@@ -16,7 +16,7 @@
       "type": "string",
       "required": true
     },
-    "child_id": {
+    "child_code": {
       "type": "string",
       "required": true
     },

@@ -264,7 +264,7 @@ async function ImportChildren(data){
 
             try{
                 strapi.services.child.create({
-                    "child_id": code, //Required
+                    "child_code": code, //Required
                     "unique_id": code, //Required
                     "old_wp_post_id": wp_post_id,
                     "publish_status": published,
@@ -560,7 +560,7 @@ async function ImportSponsorships(data){
     }
     sponsorshipSample.map(async (element) =>{
         let sponsor_id = "";
-        let child_id = "";
+        let child_code = "";
         let amount_in_cents = 0;
         let deactivated_by = "";
         let level_name = "";
@@ -568,7 +568,7 @@ async function ImportSponsorships(data){
         let wp_post_id = element.post_id.__text.toString();
         let frequency = "";
         let created_date = new Date("1970-01-01 08:00:00");
-        let db_child_id = "";
+        let db_child_code = "";
         let db_sponsor_id = "";
         let db_sponsor_first_name = "";
         let db_sponsor_last_name = "";
@@ -589,7 +589,7 @@ async function ImportSponsorships(data){
                     sponsor_id = meta.meta_value.__cdata.toString();
                     break;
                 case "child":
-                    child_id = meta.meta_value.__cdata.toString();
+                    child_code = meta.meta_value.__cdata.toString();
                     break;
                 case "amount":
                     amount_in_cents = parseInt(meta.meta_value.__cdata) * 100;
@@ -612,9 +612,9 @@ async function ImportSponsorships(data){
             let level_result = await strapi.query('sponsorship-level').find({level_name:level_name[0].toUpperCase() + level_name.slice(1).toLowerCase()});
             if(typeof level_result != 'undefined' && typeof level_result[0].id != 'undefined') level_id = level_result[0].id;
 
-            console.log("about to query child: " + child_id);
-            let child_result = await strapi.query('child').find({child_id:child_id});
-            if(typeof child_result != 'undefined' && typeof child_result[0].id != 'undefined') db_child_id = child_result[0].id;
+            console.log("about to query child: " + child_code);
+            let child_result = await strapi.query('child').find({child_code:child_code});
+            if(typeof child_result != 'undefined' && typeof child_result[0].id != 'undefined') db_child_code = child_result[0].id;
 
             console.log("about to query sponsor: " + sponsor_id);
             let sponsor_result = await strapi.query('sponsor').find({sponsor_id:sponsor_id});
@@ -631,10 +631,10 @@ async function ImportSponsorships(data){
         strapi.services.sponsorship.create({
             sponsor_id: sponsor_id,
             sponsor_full_name: db_sponsor_last_name + ", " + db_sponsor_first_name,
-            child_id: child_id,
+            child_code: child_code,
             amount_in_cents: amount_in_cents,
             deactivated_by: deactivated_by,
-            child:  db_child_id,
+            child:  db_child_code,
             sponsor: db_sponsor_id,
             sponsorship_level: level_id,
             wp_post_id: wp_post_id,
