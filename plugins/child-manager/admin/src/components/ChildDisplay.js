@@ -2,63 +2,119 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import ChildDisplayEntry from "./ChildDisplayEntry.js";
 import "./styles/ChildManager.css";
-//const dotenv = require('dotenv');
 
 class ChildDisplay extends Component{
     constructor(props){
-        //dotenv.config();
         super(props);
         this.state={
             children: [],
-            loading: true
+            loading: true,
+            numberToDisplay: 10,
+            recordCursor: 0,
         };
+        this.updateNumberToDisplay = this.updateNumberToDisplay.bind(this);
+        this.retrieveChildren = this.retrieveChildren.bind(this);
+        
+        
+    }
+
+    updateNumberToDisplay(event){
+        this.setState({numberToDisplay: parseInt(event.target.value)});
+    }
+
+    retrieveChildren = async () => {
+        console.log(this.state.numberToDisplay);
+        let response = await axios.post("http://localhost:1337/graphql", {
+            query: `
+          query {
+            children(limit:`+this.state.numberToDisplay+`){
+              id,
+              child_code,
+              first_name,
+              home{
+                id,
+                home_id
+              },
+              birthday,
+              total_sponsorships,
+              total_sponsorship_dollars,
+              country{
+                id,
+                country_name
+              }
+            }
+          }`,
+          });
+          console.log(this.state.numberToDisplay);
+        let responseChildren = [];
+        for(let i = 0; i<this.state.numberToDisplay && i<response.data.data.children.length; i++){
+            responseChildren[i] = response.data.data.children[i];
+        }
+        this.state.loading = false;
+        this.setState({ 
+            children: responseChildren,
+        })
     }
 
     componentDidMount(){
-        const retrieveChild = async () => {
-            let response = await axios.get('http://localhost:1337/children');
-            let responseChildren = [];
-            for(let i = 0; i<10 && i<response.data.length; i++){
-                responseChildren[i] = response.data[i];
-            }
-            this.state.loading = false;
-            this.setState({ 
-                children: responseChildren,
-            })
-        }
-
-        let response = retrieveChild();
-        console.log(response);
-        console.log(this.state.children);
-        console.log("here");
+        this.retrieveChildren();
 
     }
 
-    
+    componentDidUpdate(prevProps, prevState){
+        if(this.state.numberToDisplay != prevState.numberToDisplay){
+            this.retrieveChildren();
+        }
+    }
 
     render(){
-        console.log(this.state.loading);
-        //console.log(process.env.API_URL);
         let content = [];
         if(this.state.loading === true){
-            console.log("still loading");
-            content[0] = <p key="1">loading</p>;
+            content[0] = <tr><th key="1">loading</th></tr>;
         }else{
             content[0];
             let i = 0;
             this.state.children.forEach((child) => {
-                console.log(child.id);
-                content[i] = <ChildDisplayEntry childCode={child.child_id} recordId={child.id} homeId={child.home.id} homeCode={child.home.home_id}/>
-                console.log(content[i]);
+                let data = {
+                    recordId: child.id,
+                    childCode: child.child_code,
+                    childFirstName: child.first_name,
+                    homeId: child.home.id,
+                    homeCode: child.home.home_id,
+                    birthday: child.birthday,
+                    totalSponsorships: child.total_sponsorships,
+                    totalSponsorshipDollars: child.total_sponsorship_dollars,
+                    country: child.country.id,
+                    country_name: child.country.country_name,
+                }
+                content[i] = <ChildDisplayEntry key={child.id} data={data}/>
                 i++
             })
         }
         return (
             <div>
                 <h1>Hello</h1>
-                <div className="container">
-                    {console.log("rendering with " + this.state.loading)}
+                <table className="container recordEntryContainer">
+                    <tr className="row">
+                        <th className="dataHeader col-sm align-middle">Photo</th>
+                        <th className="dataHeader col-sm">Name</th>
+                        <th className="dataHeader col-sm">Code</th>
+                        <th className="dataHeader col-sm">Age</th>
+                        <th className="dataHeader col-sm">Country</th>
+                        <th className="dataHeader col-sm">Home</th>
+                        <th className="dataHeader col-sm">Total Sponsors</th>
+                        <th className="dataHeader col-sm">Amount Sponsored</th>
+                    </tr>
                     {content}
+                </table>
+                <div className="optionsContainer">
+                    <label for="numberOfRecords">Please choose number of children to display</label>
+                    <select name="numberOfRecords" id="numberOfRecords" onChange={this.updateNumberToDisplay}>
+                        <option value='10'>10</option>
+                        <option value='25'>25</option>
+                        <option value='50'>50</option>
+                        <option value='100'>100</option>
+                    </select>
                 </div>
             </div>
         )

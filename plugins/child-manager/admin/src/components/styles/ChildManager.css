@@ -1,3 +1,28 @@
-.entryContainer{
-    background-color: pink;
+:root{
+    --recordContainerDark: #f7f7f7;
+    --recordContainerLight: #fafafa;
+    --borderColor: #f0f0f0;
+}
+
+.recordEntryContainer{
+    background-color: var(--recordContainerLight);
+    border: 1px solid var(--borderColor);
+}
+
+.recordEntryContainer>.row:first-child{
+    background-color: var(--recordContainerLight);
+}
+
+.recordEntryContainer>.row:nth-child(even){
+    background-color: var(--recordContainerDark);
+}
+
+.dataHeader{
+    text-align: center;
+    display: inline-block;
+}
+
+.recordEntry{
+    text-align:center;
+    min-height: 40px;
 }

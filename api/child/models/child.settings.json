@@ -110,8 +110,8 @@
       "private": true
     },
     "country": {
-      "model": "country",
-      "via": "children"
+      "via": "children",
+      "model": "country"
     },
     "publish_status": {
       "type": "enumeration",

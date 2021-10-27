@@ -53,7 +53,7 @@
     "country_name": {
       "type": "string",
       "required": false,
-      "private": true,
+      "private": false,
       "maxLength": 50,
       "unique": true
     },
