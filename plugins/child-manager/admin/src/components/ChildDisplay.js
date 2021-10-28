@@ -7,11 +7,13 @@ class ChildDisplay extends Component{
     constructor(props){
         super(props);
         this.state={
-            children: [],
+            children: [], // Updated with retrieveChildren
             loading: true,
-            numberToDisplay: 10,
+            numberToDisplay: 10, // Updated with updateNumberToDisplay
+            numberOfChildRecords: 10, // Updated wtih retrieveChildren
             recordCursor: 0,
         };
+
         this.updateNumberToDisplay = this.updateNumberToDisplay.bind(this);
         this.retrieveChildren = this.retrieveChildren.bind(this);
         
@@ -22,41 +24,55 @@ class ChildDisplay extends Component{
         this.setState({numberToDisplay: parseInt(event.target.value)});
     }
 
+    retrieveNumberOfChildren = async () =>{
+        let response = await axios.get(strapi.backendURL+"/children/count");
+        return(response.data);
+    }
+
     retrieveChildren = async () => {
         console.log(this.state.numberToDisplay);
-        let response = await axios.post("http://localhost:1337/graphql", {
-            query: `
-          query {
-            children(limit:`+this.state.numberToDisplay+`){
-              id,
-              child_code,
-              first_name,
-              home{
-                id,
-                home_id
-              },
-              birthday,
-              total_sponsorships,
-              total_sponsorship_dollars,
-              country{
-                id,
-                country_name
-              }
+        let totalChildren = await this.retrieveNumberOfChildren();
+
+        // If there are no children, then don't run the query.
+        if(totalChildren > 0){
+            let response = await axios.post(strapi.backendURL+"/graphql", {
+                query: `
+              query {
+                children(limit:`+this.state.numberToDisplay+`){
+                  id,
+                  child_code,
+                  first_name,
+                  home{
+                    id,
+                    home_id
+                  },
+                  birthday,
+                  total_sponsorships,
+                  total_sponsorship_dollars,
+                  country{
+                    id,
+                    country_name
+                  }
+                }
+              }`,
+              });
+              console.log(this.state.numberToDisplay);
+            let responseChildren = [];
+            for(let i = 0; i<this.state.numberToDisplay && i<response.data.data.children.length && i<totalChildren; i++){
+                responseChildren[i] = response.data.data.children[i];
             }
-          }`,
-          });
-          console.log(this.state.numberToDisplay);
-        let responseChildren = [];
-        for(let i = 0; i<this.state.numberToDisplay && i<response.data.data.children.length; i++){
-            responseChildren[i] = response.data.data.children[i];
+
+            this.setState({ 
+                children: responseChildren,
+                numberOfChildRecords: totalChildren,
+                loading: false,
+            })
         }
-        this.state.loading = false;
-        this.setState({ 
-            children: responseChildren,
-        })
+        
     }
 
     componentDidMount(){
+        this.retrieveNumberOfChildren();
         this.retrieveChildren();
 
     }
@@ -116,6 +132,7 @@ class ChildDisplay extends Component{
                         <option value='100'>100</option>
                     </select>
                 </div>
+                <div><p>Displaying {this.state.numberToDisplay} of {this.state.numberOfChildRecords} children</p></div>
             </div>
         )
     }
